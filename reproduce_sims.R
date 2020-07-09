@@ -1,0 +1,108 @@
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(survival)
+library(survRM2)
+#devtools::install_github("dominicmagirr/modestWLRT")
+library(modestWLRT)
+
+
+## List of methods to use
+
+wll = list(standard_logrank = list(method = "fixed_c", delay = 0),
+           fh_0_1 = list(method = "fh", rho = 0, gamma = 1),
+           fix_c_12m = list(method = "fixed_c", delay = 12),
+           fix_c_24m = list(method = "fixed_c", delay = 24),
+           landmark_21m = list(method = "landmark", time = 21),
+           landmark_27m = list(method = "landmark", time = 27))
+
+## Scenarios
+
+non_prop_haz = list(n_c = 500,
+                    n_e = 500,
+                    med_c = 15,
+                    rate_e_1 = log(2) / 15,
+                    rate_e_2 = log(2) / 21,
+                    rec_period = 12,
+                    rec_power = 1,
+                    delay = 6,
+                    max_cal_t = 36,
+                    n_events = NULL)
+
+prop_haz = list(n_c = 500,
+                n_e = 500,
+                med_c = 15,
+                rate_e_1 = log(2) / 19,
+                rate_e_2 = log(2) / 19,
+                rec_period = 12,
+                rec_power = 1,
+                delay = 6,
+                max_cal_t = 36,
+                n_events = NULL)
+
+weak_null = list(n_c = 500,
+                 n_e = 500,
+                 med_c = 15,
+                 rate_e_1 = log(2) / 15,
+                 rate_e_2 = log(2) / 15,
+                 rec_period = 12,
+                 rec_power = 1,
+                 delay = 6,
+                 max_cal_t = 30,
+                 n_events = NULL)
+
+
+strong_null = list(n_c = 500,
+                   n_e = 500,
+                   rate_c_1 = log(2) / 15,
+                   rate_c_2 = log(2) / 15,
+                   rate_c_3 = log(2) / 25,
+                   rate_e_1 = log(2) / 11,
+                   rate_e_2 = log(2) / 17,
+                   rate_e_3 = log(2) / 25,
+                   rec_period = 12,
+                   rec_power = 1,
+                   delay_1 = 7,
+                   delay_2 = 27,
+                   max_cal_t = 36,
+                   n_events = NULL)
+
+
+
+dim_haz = list(n_c = 500,
+               n_e = 500,
+               rate_c_1 = log(2) / 15,
+               rate_c_2 = log(2) / 15,
+               rate_c_3 = log(2) / 15,
+               rate_e_1 = log(2) / 25,
+               rate_e_2 = log(2) / 18,
+               rate_e_3 = log(2) / 13,
+               rec_period = 12,
+               rec_power = 1,
+               delay_1 = 9,
+               delay_2 = 18,
+               max_cal_t = 36,
+               n_events = NULL)
+
+
+
+
+set.seed(198)
+z_non_prop_haz = replicate(1e3, compare_weights(wll, non_prop_haz))
+z_prop_haz = replicate(1e3, compare_weights(wll, prop_haz))
+z_dim_haz = replicate(1e3, compare_weights(wll, dim_haz))
+z_weak_null = replicate(1e3, compare_weights(wll, weak_null))
+z_strong_null = replicate(1e3, compare_weights(wll, strong_null))
+
+p_non_prop_haz <- rowMeans(z_non_prop_haz > qnorm(0.975))
+p_prop_haz <- rowMeans(z_prop_haz > qnorm(0.975))
+p_dim_haz <- rowMeans(z_dim_haz > qnorm(0.975))
+p_weak_null <- rowMeans(z_weak_null > qnorm(0.975))
+p_strong_null <- rowMeans(z_strong_null > qnorm(0.975))
+
+
+p_non_prop_haz
+p_weak_null
+p_strong_null
+p_prop_haz
+p_dim_haz
