@@ -1,3 +1,15 @@
+---
+title: 'Old perspective: reproduce sims'
+author: "Dominic Magirr"
+date: "7/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -5,7 +17,7 @@ library(survival)
 #library(survRM2)
 #devtools::install_github("dominicmagirr/modestWLRT")
 #library(modestWLRT)
-devtools::load_all("./modestWLRT")
+devtools::load_all("~/modestWLRT")
 
 
 ## List of methods to use
@@ -107,3 +119,6 @@ p_weak_null
 p_strong_null
 p_prop_haz
 p_dim_haz
+
+```
+

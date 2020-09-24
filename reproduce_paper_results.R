@@ -62,7 +62,7 @@ axis(side = 1, at = c(1,2:11,12),
      labels = c("(12)",rep("", 10), "(1)"))
 axis(side = 2, at = c(-10,-5,0,5,10))
 points((1:12)[-c(2,5,11)], a[-c(2,5,11)], col = 1, pch = 16)
-legend("topright", c("event", "censored"), pch = c(16,1))
+legend("topright", c("Event", "Censored"), pch = c(16,1))
 
 ## Logrank test
 a <- -cumsum(event / (12:1)) + event
@@ -74,7 +74,7 @@ mean(colMeans(a * perms) - colMeans(a * (1 - perms)) <= st) # p-value
 
 plot(1:12, a, pch = 1, axes = FALSE, 
      xlab = "Rank", ylab = "Score", ylim = c(-1.5,1),
-     main = "(b) Logrank test")
+     main = "(b) Log-rank test")
 axis(side = 1, at = c(1,2:11,12),
      labels = c("(12)",rep("", 10), "(1)"))
 axis(side = 2, at = c(-1.5,-1,-0.5,0,0.5,1))

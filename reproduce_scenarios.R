@@ -17,14 +17,15 @@ draw_s <- function(delay1=7,
   s3c = exp(-log(2) / m1c * delay1) * exp(-log(2) / m2c * (delay2 - delay1)) * exp(-log(2) / m3c * (x - delay2))
   s_x_c = (x < delay1)*s1c + (x >= delay1 & x < delay2) * s2c + (x >= delay2) * s3c
   
-  plot(x, s_x_c, ylim = c(0,1), type = "l", xlab = "time (months)", ylab = "survival", main = main)
+  plot(x, s_x_c, ylim = c(0,1), type = "l", xlab = "Time (months)", ylab = "Survival", main = main)
   points(x, s_x_e, lty = 2, type = "l")
-  legend("topright", c("experimental", "control"), lty = 2:1)
+  legend("topright", c("Experimental", "Control"), lty = 2:1)
 }
 
-par(mfrow = c(1,2))
+par(mfrow = c(2,2))
 draw_s(delay1=9, delay2 = 18, m1=19, m2=19, m3=19, m1c=15, m2c=15, m3c=15, main = "(D) Proportional Hazards")
 draw_s(delay1=9, delay2 = 18, m1=25, m2=18, m3=13, m1c=15, m2c=15, m3c=15, "(E) Diminishing Effect")
+draw_s(delay1=2, delay2 = 6,  m1=7,  m2=15, m3=15, m1c=14, m2c=10, m3c=15, "(F) Early Harm")
 
 
 par(mfrow = c(2,2))
